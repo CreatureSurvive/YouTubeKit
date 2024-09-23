@@ -23,6 +23,7 @@ public struct YouTubeMetadata {
     public struct Thumbnail {
         /// The URL of the thumbnail image.
         public let url: URL
+        public let dimensions: CGSize
     }
 
     /// Initialize YouTubeMetadata from video details.
@@ -35,7 +36,7 @@ public struct YouTubeMetadata {
         YouTubeMetadata(
             title: videoDetails.title,
             description: videoDetails.shortDescription,
-            thumbnail: videoDetails.thumbnail.thumbnails.map { YouTubeMetadata.Thumbnail(url: $0.url) }.last
+            thumbnail: videoDetails.thumbnail.thumbnails.map { YouTubeMetadata.Thumbnail(url: $0.url, dimensions: CGSize(width: $0.width, height: $0.height)) }.last
         )
     }
     
