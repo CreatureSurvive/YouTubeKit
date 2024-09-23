@@ -23,6 +23,7 @@ public struct YouTubeMetadata: Sendable {
     public struct Thumbnail: Sendable {
         /// The URL of the thumbnail image.
         public let url: URL
+        public let dimensions: CGSize
     }
 
     /// Initialize YouTubeMetadata from video details.
@@ -35,7 +36,7 @@ public struct YouTubeMetadata: Sendable {
         YouTubeMetadata(
             title: videoDetails.title ?? "",
             description: videoDetails.shortDescription ?? "",
-            thumbnail: videoDetails.thumbnail.thumbnails.map { YouTubeMetadata.Thumbnail(url: $0.url) }.last
+            thumbnail: videoDetails.thumbnail.thumbnails.map { YouTubeMetadata.Thumbnail(url: $0.url, dimensions: CGSize(width: $0.width, height: $0.height)) }.last
         )
     }
     
@@ -51,7 +52,7 @@ public struct YouTubeMetadata: Sendable {
         return YouTubeMetadata(
             title: title,
             description: videoDetails.lazy.compactMap { $0.shortDescription }.first ?? "",
-            thumbnail: videoDetails.first(where: { !$0.thumbnail.thumbnails.isEmpty })?.thumbnail.thumbnails.map { YouTubeMetadata.Thumbnail(url: $0.url) }.last
+            thumbnail: videoDetails.first(where: { !$0.thumbnail.thumbnails.isEmpty })?.thumbnail.thumbnails.map { YouTubeMetadata.Thumbnail(url: $0.url, dimensions: CGSize(width: $0.width, height: $0.height)) }.last
         )
     }
     
